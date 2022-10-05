@@ -5,6 +5,10 @@
  */
 
 // @lc code=start
+#include <string>
+#include <algorithm>
+#include <vector>
+using namespace std;
 class Solution {
 public:
     int minCost(string colors, vector<int>& neededTime) {
