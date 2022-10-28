@@ -5,18 +5,21 @@
  */
 
 // @lc code=start
-#include <vector>
-#include<unordered_map>
-using namespace std;
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        unordered_map<int,int> hashmap;
+        unordered_map<int,int> mp;
         for(int i=0;i<nums.size();i++){
-            if(hashmap.count(target-nums[i]))
-                return {i,hashmap[target-nums[i]]};
-            else hashmap[nums[i]]=i;
+            //另一半找到了
+            if(mp.count(target-nums[i])){
+                return {i,mp[target-nums[i]]};
             }
+            //另一半没找到
+            else{
+                //暴力替换，因为只需要找到最多一组
+                mp[nums[i]]=i;
+            }
+        }
         return {};
     }
 };
