@@ -5,9 +5,6 @@
  */
 
 // @lc code=start
-#include<string>
-#include<vector>
-#include<unordered_map>
 class Solution {
 public:
     int numMatchingSubseq(std::string s, std::vector<std::string>& words) {
@@ -54,6 +51,23 @@ public:
     //     return res;
 
     //3. 用基础方法去并行处理所有words
+    int res=0;
+    std::vector<std::vector<const char*>> need(26);
+    for(auto& word:words) need[word[0]-'a'].push_back(word.c_str());
+    for(auto& c:s){
+        //No string needs c
+        if(need[c-'a'].size()==0) continue;
+        //Some string needs c
+        auto cpy=need[c-'a'];
+        //Delete need[c-'a'] first, otherwise if c='b' and next needing char is also 'b' for some word, error happens
+        need[c-'a'].clear();
+        for(auto ptr:cpy){
+            ptr++;
+            if((*ptr)=='\0') res++;
+            else need[(*ptr)-'a'].push_back(ptr);
+        }
+    }
+    return res;
     }
 };
 // @lc code=end
