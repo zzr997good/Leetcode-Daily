@@ -3,45 +3,26 @@
  *
  * [239] Sliding Window Maximum
  */
-#include<vector>
-#include<deque>
-using namespace std;
-// @lc code=start
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        MonotonicQue que;
+        int sz=nums.size();
         vector<int> res;
+        deque<int> que;
         for(int i=0;i<nums.size();i++){
-            if(i<k) que.push(nums[i]);
+            if(i<k){
+                while(!que.empty()&&que.back()<nums[i]) que.pop_back();
+                que.push_back(nums[i]);
+            }
             else{
-                if(que.front()==nums[i-k]) que.pop();
-                que.push(nums[i]);
+                if(nums[i-k]==que.front()) que.pop_front();
+                while(!que.empty()&&que.back()<nums[i]) que.pop_back();
+                que.push_back(nums[i]);
             }
             if(i>=k-1) res.push_back(que.front());
-
         }
         return res;
     }
-private:
-    //单调递增队列
-    class MonotonicQue{
-        private:
-            deque<int> que;
-        public:
-            void pop(){
-                if(!que.empty()) que.pop_front();
-            }
-
-            void push(int num){
-                while(!que.empty()&&que.back()<num) que.pop_back();
-                que.push_back(num);
-            }
-
-            int front(){
-                return que.front();
-            }
-    };
 };
 // @lc code=end
 
