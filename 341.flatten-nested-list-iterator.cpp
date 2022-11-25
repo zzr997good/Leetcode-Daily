@@ -26,43 +26,39 @@
 class NestedIterator {
 public:
     NestedIterator(vector<NestedInteger> &nestedList) {
-        curs.push(nestedList.begin());
-        ends.push(nestedList.end());
+        cur_stk.push(nestedList.begin());
+        end_stk.push(nestedList.end());
     }
     
     int next() {
-        int nextint=curs.top()->getInteger();
-        curs.top()++;
-        return nextint;
+        int num=cur_stk.top()->getInteger();
+        cur_stk.top()++;
+        return num;
     }
     
     bool hasNext() {
-        while(!curs.empty()&&!ends.empty()){
-            if(curs.top()==ends.top()){
-                curs.pop();
-                ends.pop();
+        while(!cur_stk.empty()&&!end_stk.empty()){
+            if(cur_stk.top()==end_stk.top()){
+                cur_stk.pop();
+                end_stk.pop();
                 continue;
             }
-            else if(curs.top()->isInteger()) return true;
-            else {
-                auto new_nestedlist=curs.top();
-                curs.top()++;
-                curs.push(new_nestedlist->getList().begin());
-                ends.push(new_nestedlist->getList().end());
+            if(cur_stk.top()->isInteger()){
+                return true;
+            }
+            else{
+                auto cur_list=cur_stk.top();
+                cur_stk.top()++;
+                cur_stk.push(cur_list->getList().begin());
+                end_stk.push(cur_list->getList().end());
             }
         }
         return false;
     }
 private:
-    stack<vector<NestedInteger>::iterator> curs;
-    stack<vector<NestedInteger>::iterator> ends;
+    stack<vector<NestedInteger>::iterator> cur_stk;
+    stack<vector<NestedInteger>::iterator> end_stk;
 };
-
-/**
- * Your NestedIterator object will be instantiated and called as such:
- * NestedIterator i(nestedList);
- * while (i.hasNext()) cout << i.next();
- */
 
 /**
  * Your NestedIterator object will be instantiated and called as such:
