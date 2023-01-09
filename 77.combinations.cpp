@@ -8,23 +8,17 @@
 class Solution {
 public:
     vector<vector<int>> combine(int n, int k) {
-        vector<int> cur;
-        vector<vector<int>> res;
-        backtracking(n, 1, cur, k, res);
+        backtrack(n, 1, k);
         return res;
     }
-
-    //n and start is the current choices
-    //cur is the current situation
-    //k is the amount of number required
-    void backtracking(int n,int start,vector<int>& cur, int k,vector<vector<int>>& res){
-        if(k==0){
-            res.push_back(cur);
-            return;
-        }
+private:
+    vector<int> cur;
+    vector<vector<int>> res;
+    void backtrack(int n,int start, int k){
+        if(cur.size()==k) res.push_back(cur);
         for(int i=start;i<=n;i++){
             cur.push_back(i);
-            backtracking(n,i+1,cur,k-1,res);
+            backtrack(n, i+1, k);
             cur.pop_back();
         }
     }
